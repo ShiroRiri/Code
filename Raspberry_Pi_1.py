@@ -23,7 +23,11 @@ import busio
 import adafruit_bno055
 import adafruit_mma8451
 
-///////////////////////////////////////////////////
+# ///////////////////////////////////////////////////
+
+# I will finish this tomorrow, night
+# https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
+
 # code for BNO055
 
 # initialize I2C bus and sensors
