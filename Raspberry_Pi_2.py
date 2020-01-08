@@ -12,3 +12,10 @@
 # ADS1115                                                       #
 # sudo pip3 install adafruit-circuitpython-ads1x15              #
 # ///////////////////////////////////////////////////////////////
+
+# libraries
+import board
+import busio
+
+# 
+i2c = busio.I2C(board.SCL, board.SDA)
