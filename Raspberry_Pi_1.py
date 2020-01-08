@@ -7,7 +7,7 @@
 
 # /////////////////////////////////////////////////////
 # code to install libraries for each sensor           #
-# on the pi, write in command line                    #
+# on the pi, write in terminal                        #
 #                                                     #
 # BNO055                                              #
 # sudo pip3 install adafruit-circuitpython-bno055     #
@@ -22,16 +22,23 @@ import board
 import busio
 import adafruit_bno055
 import adafruit_mma8451
+import adafruit_tca9548a   # multiplexer
+
 
 # ///////////////////////////////////////////////////
 
 # I will finish this tomorrow, night
 # https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
 
+# initialize I2C bus and sensors
+i2c = busio.I2C(board.SCL, board.SDA)
+
+# create the TCA9548A object and give it the I2C bus
+tca = adafruit_tca9548a.TCA9548A(i2c)
+
 # code for BNO055
 
 # initialize I2C bus and sensors
-i2c = busio.I2C(board.SCL, board.SDA)
 sensor1 = adafruit_bno055.BNO055(i2c)
 sensor2 = adafruit_mma8451.MMA8451(i2c)
  
