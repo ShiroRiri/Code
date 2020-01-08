@@ -17,5 +17,6 @@
 import board
 import busio
 
-# 
+# initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
+
