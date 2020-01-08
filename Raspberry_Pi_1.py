@@ -39,25 +39,29 @@ tca = adafruit_tca9548a.TCA9548A(i2c)
 # code for BNO055
 
 # initialize I2C bus and sensors
-sensor1 = adafruit_bno055.BNO055(i2c)
-sensor2 = adafruit_mma8451.MMA8451(i2c)
+# sensor1 = adafruit_bno055.BNO055(i2c)
+# sensor2 = adafruit_mma8451.MMA8451(i2c)
+
+# create each sensor using the TCA9548A channel instead of the I2C object
+tsl1 = adafruit_tsl2591.TSL2591(tca[0])   # BNO055
+tsl2 = adafruit_tsl2591.TSL2591(tca[1])   # MMA8451 
  
 while True:
 # BNO055 code
-    print('Temperature: {} degrees C'.format(sensor1.temperature))
-    print('Accelerometer (m/s^2): {}'.format(sensor1.acceleration))
-    print('Magnetometer (microteslas): {}'.format(sensor1.magnetic))
-    print('Gyroscope (rad/sec): {}'.format(sensor1.gyro))
-    print('Euler angle: {}'.format(sensor1.euler))
-    print('Quaternion: {}'.format(sensor1.quaternion))
-    print('Linear acceleration (m/s^2): {}'.format(sensor1.linear_acceleration))
-    print('Gravity (m/s^2): {}'.format(sensor1.gravity))
+    print('Temperature: {} degrees C'.format(tsl1.temperature))
+    print('Accelerometer (m/s^2): {}'.format(tsl1.acceleration))
+    print('Magnetometer (microteslas): {}'.format(tsl1.magnetic))
+    print('Gyroscope (rad/sec): {}'.format(tsl1.gyro))
+    print('Euler angle: {}'.format(tsl1.euler))
+    print('Quaternion: {}'.format(tsl1.quaternion))
+    print('Linear acceleration (m/s^2): {}'.format(tsl1.linear_acceleration))
+    print('Gravity (m/s^2): {}'.format(tsl1.gravity))
     print()
     
 # MMA8451 code
-    x, y, z = sensor2.acceleration
+    x, y, z = tsl2.acceleration
     print('Acceleration: x={0:0.3f}m/s^2 y={1:0.3f}m/s^2 z={2:0.3f}m/s^2'.format(x, y, z))
-    orientation = sensor2.orientation
+    orientation = tsl2.orientation
     # Orientation is one of these values:
     #  - PL_PUF: Portrait, up, front
     #  - PL_PUB: Portrait, up, back
