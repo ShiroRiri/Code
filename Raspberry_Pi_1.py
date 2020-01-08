@@ -1,8 +1,8 @@
 # ///////////////////////////////////////
 # Raspberry Pi 1:                       #
-# -BNO055   -> accelerometer 1 [x1]     #
-# -MMA8451  -> accelerometer 2 [x3]     #
-# -TCA9548A -> Multiplexer [x1]         #
+# -BNO055 (orientation) [x1]            #
+#  -MMA8451 (accelerometer) [x3]        #
+#  -TCA9548A (multiplexer) [x1]         #
 # ///////////////////////////////////////
 
 # ///////////////////////////////////////////////////////////////
