@@ -15,9 +15,6 @@
 # DS18B20                                                       #
 # sudo pip3 install adafruit-circuitpython-onewire              #
 # sudo pip3 install adafruit-circuitpython-ds18x20              #
-#                                                               #
-# ADS1115                                                       #
-# sudo pip3 install adafruit-circuitpython-ads1x15              #
 # ///////////////////////////////////////////////////////////////
 
 # libraries
