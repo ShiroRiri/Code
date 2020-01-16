@@ -21,6 +21,9 @@
 import time
 import board
 import busio
+import RPi.GPIO as GPIO
+
+tempPin = 
 
 # set up temperature probe for analog
 from adafruit_onewire.bus import OneWireBus
