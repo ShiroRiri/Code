@@ -47,6 +47,11 @@ bno055_1 = open('/media/pi/bno055_1.txt', 'w')
 mma8451_1 = open('/media/pi/mma8451_1.txt', 'w')
 mma8451_2 = open('/media/pi/mma8451_2.txt', 'w')
 mma8451_3 = open('/media/pi/mma8451_3.txt', 'w')
+
+# MMA8451 code
+    x1, y1, z1 = tsl1.acceleration
+    x2, y2, z2 = tsl2.acceleration
+    x3, y3, z3 = tsl3.acceleration
  
 while True:
 # BNO055 code
@@ -73,21 +78,7 @@ while True:
     bno055_1.write('%f\n', sensor.gravity)
 '''
      
-'''
-    print('Temperature: {} degrees C'.format(sensor.temperature))
-    print('Accelerometer (m/s^2): {}'.format(sensor.acceleration))
-    print('Magnetometer (microteslas): {}'.format(sensor.magnetic))
-    print('Gyroscope (rad/sec): {}'.format(sensor.gyro))
-    print('Euler angle: {}'.format(sensor.euler))
-    print('Quaternion: {}'.format(sensor.quaternion))
-    print('Linear acceleration (m/s^2): {}'.format(sensor.linear_acceleration))
-    print('Gravity (m/s^2): {}'.format(sensor.gravity))
-'''
-     
 # MMA8451 code
-    x1, y1, z1 = tsl1.acceleration
-    x2, y2, z2 = tsl2.acceleration
-    x3, y3, z3 = tsl3.acceleration
      
     # print('Acceleration: x={0:0.3f}m/s^2 y={1:0.3f}m/s^2 z={2:0.3f}m/s^2'.format(x, y, z))
     mma8451_1.write('%f %f %f\n', x1, y1, z1)
