@@ -1,6 +1,6 @@
 # ///////////////////////////////////////
 # Raspberry Pi 1:                       #
-# -BNO055 (orientation) [x1]            #
+#  -BNO055 (orientation) [x1]           #
 #  -MMA8451 (accelerometer) [x3]        #
 #  -TCA9548A (multiplexer) [x1]         #
 # ///////////////////////////////////////
@@ -50,9 +50,28 @@ mma8451_3 = open('/media/pi/mma8451_3.txt', 'w')
  
 while True:
 # BNO055 code
+    '''
+    acceleration: m/s^2
+    temperature: C
+    magnetic: microteslas
+    gyroscope: rad/sec
+    linear acceleration: m/s^2
+    gravity: m/s^2
+    '''
+
     bno055_1.write('%f\n', sensor.acceleration)
  
  # will talk to Paul G about which other ones to add
+ 
+ '''
+    bno055_1.write('%f\n', sensor.temperature)
+    bno055_1.write('%f\n', sensor.magnetic)
+    bno055_1.write('%f\n', sensor.gyro)
+    bno055_1.write('%f\n', sensor.euler)
+    bno055_1.write('%f\n', sensor.quaternion)
+    bno055_1.write('%f\n', sensor.linear_acceleration)
+    bno055_1.write('%f\n', sensor.gravity)
+'''
      
 '''
     print('Temperature: {} degrees C'.format(sensor.temperature))
