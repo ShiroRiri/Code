@@ -22,12 +22,16 @@ import time
 import board
 import busio
 import RPi.GPIO as GPIO
+import threading
+import datetime
 
-tempPin = 
+# probably will have to go over this again
+# tempPin = 
 
 # set up temperature probe for analog
-from adafruit_onewire.bus import OneWireBus
-from adafruit_ds18x20 import DS18X20
+
+from adafruit_onewire.bus import OneWireBus         #import the OneWire Bus
+from adafruit_ds18x20 import DS18X20                         #import sensor
 
 # initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -37,8 +41,27 @@ ow_bus = OneWireBus(board.D5)                                   # fix this
 
 # Scan for sensors and grab the first one found.
 ds18 = DS18X20(ow_bus, ow_bus.scan()[0])
- 
+
+# open files for the sensors out here
+
+def data(): 
 # Main loop to print the temperature every second.
+    
+   x = ds18.temperature
+   
+   # at some point create an object to write to
+   #####.write("{}\n".format(x))
+   print(datetime.datetime.utcnow()+datetime.timedelta(hours=-8))
+   print()
+   time.sleep(1.0)
 while True:
-    print('Temperature: {0:0.3f}C'.format(ds18.temperature))
-    time.sleep(1.0)
+  data()
+  
+#close files
+
+####.close()
+####.close()
+####.close()
+
+#review this and read some more of the documentation TOMORROW (2/22/2020) or (2/23/2020)
+#But finish by Sunday night
