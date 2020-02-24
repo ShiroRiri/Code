@@ -14,6 +14,8 @@ if __name__ == "__main__":
     main()
 
 def main():
+    global i2cWriter
+    global owWriter
     i2cWriter = DataLogWriter('~/i2c-log.bin', [{'name': 'StrainGuage', 'type': FieldTypes.FLOAT}])
     owWriter = DataLogWriter('~/ow-log.bin', [{'name': 'TempProbe', 'type': FieldTypes.FLOAT}])
 
