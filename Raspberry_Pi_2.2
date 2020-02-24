@@ -1,7 +1,7 @@
 # /////////////////////////////////////////////// #
 # Raspberry Pi 2:                                 #
 #  - DS18B20 (temp probe) [x4]                    #
-#  - strain gague [x2]                            #
+#  - strain gauge [x2]                            #
 #  - ADS1115 (analog to digital converter) [x2]   #
 # /////////////////////////////////////////////// #
 
@@ -22,6 +22,7 @@ import time
 import board
 import busio
 import RPi.GPIO as GPIO
+import adafruit_ads1x15.ads1115 as ADS
 import threading
 import datetime
 
@@ -32,36 +33,54 @@ import datetime
 
 from adafruit_onewire.bus import OneWireBus         #import the OneWire Bus
 from adafruit_ds18x20 import DS18X20                         #import sensor
+from adafruit_ads1x15.analog_in import AnalogIn
 
 # initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # Initialize one-wire bus on board pin D5.
-ow_bus = OneWireBus(board.D5)                                   # fix this
+ow_bus = OneWireBus(board.D5)  
+
+ads = ADS.ADS1115(i2c)
 
 # Scan for sensors and grab the first one found.
-ds18 = DS18X20(ow_bus, ow_bus.scan()[0])
+ds18_1 = adafruit_ds18x20.DS18X20(ow_bus, devices[0]) #DS18X20_1
+ds18_2 = adafruit_ds18x20.DS18X20(ow_bus, devices[1]) #DS18X20_2
+ds18_3 = adafruit_ds18x20.DS18X20(ow_bus, devices[2]) #DS18X20_3
+ds18_4 = adafruit_ds18x20.DS18X20(ow_bus, devices[3]) #DS18X20_4
 
 # open files for the sensors out here
+ds18x20_1 = open('/home/pi/NCR/Read/ds18x20_1.txt', 'w')
+ds18x20_2 = open('/home/pi/NCR/Read/ds18x20_2.txt', 'w')
+ds18x20_3 = open('/home/pi/NCR/Read/ds18x20_3.txt', 'w')
+ds18x20_4 = open('/home/pi/NCR/Read/ds18x20_4.txt', 'w')
 
 def data(): 
 # Main loop to print the temperature every second.
     
-   x = ds18.temperature
+   x1 = ds18_1.temperature
+   x2 = ds18_2.temperature
+   x3 = ds18_3.temperature
+   x4 = ds18_4.temperature
    
    # at some point create an object to write to
-   #####.write("{}\n".format(x))
+   ds18x20_1.write("{}\n".format(x1))
+   ds18x20_2.write("{}\n".format(x2))
+   ds18x20_3.write("{}\n".format(x3))
+   ds18x20_4.write("{}\n".format(x4))
    print(datetime.datetime.utcnow()+datetime.timedelta(hours=-8))
    print()
    time.sleep(1.0)
+   
 while True:
   data()
   
 #close files
 
-####.close()
-####.close()
-####.close()
+ds18x20_1.close()
+ds18x20_2.close()
+ds18x20_3close()
+ds18x20_4close()
 
-#review this and read some more of the documentation TOMORROW (2/22/2020) or (2/23/2020)
-#But finish by Sunday night
+#review this and read some more of the documentation TOMORROW (2/22/2020) or (2/23/2020) [done]
+
