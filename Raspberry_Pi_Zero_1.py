@@ -2,6 +2,7 @@ import sys
 import threading
 import board
 import busio
+import digitalio
 import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 from adafruit_ds18x20 import DS18X20
@@ -27,9 +28,15 @@ def initializeIO():
         # Initialize devices
         global adc
         global temp_sensor
+        global temp_sensor_enable
         adc = ADS.ADS1115(i2c)
         temp_sensor = DS18X20(ow_bus, ow_bus.scan()[0])
         temp_sensor.resolution = 9 # Speeds up the polling rate while sacrificing some resolution
+        
+        # Strain guage enable transistor
+        sg_enable = digitalio.DigitalInOut(D17)
+        sg_enable.direction = digitalio.Direction.OUTPUT
+        sg_enable.value = False
 
         print("IO successfully initialized")
 
@@ -54,6 +61,8 @@ def startLogging():
     owThread.join()
 
 def logI2CDevices():
+    sg_enable.value = True # Enable strain guage before ADC samples
+    
     while True:
         i2cWriter.beginSample()
         adc_sample = AnalogIn(adc, 0, 1)
