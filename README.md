@@ -1,10 +1,10 @@
 # PAYLOAD - Norco College Rocketry
 
-This is the code for the payload section by Norco College Rocketry.
+This is the code for the payload section by Norco College Rocketry.\
 There is a pi zero in the nosecone acting as a wireless access point for the three raspberry pi boards below in payload proper. There is also an arduino on the ground connected to a radio transceiver.
 
 ### Getting Started
-The repository is broken down by the python code (.py files) in the code directory.
+The repository is broken down by the python code (.py files) in the code directory.\
 There are libraries and tutorials required to set up each pi, located below, along with which sensors are being utilized.
 
 ## Raspberry Pi Zero
@@ -27,20 +27,46 @@ sudo pip3 install adafruit-circuitpython-mma8451
 ```
 sudo pip3 install adafruit-circuitpython-tca9548a
 ```
-Here is the GitHub link for the reference code
+Here is the GitHub link for the reference code\
 https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
+* Raspberry Pi Camera
 
 ## Raspberry Pi 2
 * DS18B20 -> temp probe [x4]
-* strain gague [x2]
+```
+sudo pip3 install adafruit-circuitpython-onewire
+sudo pip3 install adafruit-circuitpython-ds18x20 
+```
 * ADS1115 -> analog to digital converter [x2]
+```
+sudo pip3 install adafruit-circuitpython-ads1x15
+```
 * TCA9548A -> Multiplexer [x1]
+```
+sudo pip3 install adafruit-circuitpython-tca9548a
+```
+Here is a useful link for the multiplexer\
+https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
+* strain gague [x2]
 
 ## Raspberry Pi 3
 * BMP388 -> altitude, pressure, temp [x1]
+```
+sudo pip3 install adafruit-circuitpython-bmp3xx
+```
 * BME280 -> temp, pressure, humidity [x1]
+```
+sudo pip3 install adafruit-circuitpython-bme280
+```
 * SGP30  -> CO2 [x1]
+```
+sudo pip3 install adafruit-circuitpython-sgp30
+```
 * TCA9548A -> Multiplexer [x1]
-* Raspberry Pi Camera
+```
+sudo pip3 install adafruit-circuitpython-tca9548a
+```
+Here is a useful link for the multiplexer\
+https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
 
 ## Arduino
