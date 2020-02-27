@@ -15,11 +15,11 @@ There are libraries and tutorials required to set up each pi, located below, alo
 * ADS1115 -> analog to digital converter [x1]
 
 ## Raspberry Pi 1
-* BNO055   -> accelerometer 1 [x1]
+### BNO055   -> accelerometer 1 [x1]
 ```
 sudo pip3 install adafruit-circuitpython-bno055
 ```
-* MMA8451  -> accelerometer 2 [x3]
+### MMA8451  -> accelerometer 2 [x3]
 ```
 sudo pip3 install adafruit-circuitpython-mma8451
 ```
