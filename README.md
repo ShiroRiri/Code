@@ -24,8 +24,9 @@ mosquitto_pub -h localhost -t "test/message" -m "Hello, world"
 ```
 Here are the tutorials I used: \
 https://tutorials-raspberrypi.com/raspberry-pi-mqtt-broker-client-wireless-communication/ \
-https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi \  \
-Here is a good reference
+https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi \  
+
+\Here is a good reference
 https://pypi.org/project/paho-mqtt/
 
 
