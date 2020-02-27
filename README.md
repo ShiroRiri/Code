@@ -11,6 +11,18 @@ There are libraries and tutorials required to set up each pi, located below, alo
 This one is a little more involved.
 ### MQTT
 This is how our server/client communicate.\
+```
+sudo apt-get install -y mosquitto mosquitto-clients
+sudo systemctl enable mosquitto
+sudo systemctl status mosquitto
+sudo pip install paho-mqtt
+```
+You can test if it is working locally with there 2 in 2 different terminals:
+```
+mosquitto_sub -h localhost -t "test/message"
+mosquitto_pub -h localhost -t "test/message" -m "Hello, world"
+```
+Here are the tutorials I used:
 https://tutorials-raspberrypi.com/raspberry-pi-mqtt-broker-client-wireless-communication/ \
 https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi \
 \
