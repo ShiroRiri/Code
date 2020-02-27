@@ -3,13 +3,12 @@
 This is the code for the payload section by Norco College Rocketry.
 There is a pi zero in the nosecone acting as a wireless access point for the three raspberry pi boards below in payload proper. There is also an arduino on the ground connected to a radio transceiver.
 
-## Getting Started
+### Getting Started
 The repository is broken down by the python code (.py files) in the code directory.
 There are libraries and tutorials required to set up each pi, located below, along with which sensors are being utilized.
 
 ## Raspberry Pi Zero
 
-### The Sensors
 * RFM96W -> 433 MHz radio transceiver [x1]
 * DS18B20 -> temp probe [x1]
 * strain gague [x1]
@@ -17,8 +16,19 @@ There are libraries and tutorials required to set up each pi, located below, alo
 
 ## Raspberry Pi 1
 * BNO055   -> accelerometer 1 [x1]
+```
+sudo pip3 install adafruit-circuitpython-bno055
+```
 * MMA8451  -> accelerometer 2 [x3]
+```
+sudo pip3 install adafruit-circuitpython-mma8451
+```
 * TCA9548A -> Multiplexer [x1]
+```
+sudo pip3 install adafruit-circuitpython-tca9548a
+```
+Here is the GitHub link for the reference code
+https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
 
 ## Raspberry Pi 2
 * DS18B20 -> temp probe [x4]
