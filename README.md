@@ -11,6 +11,11 @@ There are libraries and tutorials required to set up each pi, located below, alo
 This one is a little more involved.
 ### MQTT
 This is how our server/client communicate.\
+https://tutorials-raspberrypi.com/raspberry-pi-mqtt-broker-client-wireless-communication/ \
+https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi \
+Here is a good reference
+https://pypi.org/project/paho-mqtt/
+
 
 ### Wireless access point
 Follow this raspberry pi official tutorial to get it working\
