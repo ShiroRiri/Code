@@ -37,7 +37,7 @@ https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 ### RFM96W -> 433 MHz radio transceiver [x1]
 ###  DS18B20 -> temp probe [x1]
 ###  strain gague [x1]
-###  ADS1115 -> analog to digital converter [x1]  \
+###  ADS1115 -> analog to digital converter [x1]  
 
 ## Raspberry Pi 1
 ### BNO055   -> accelerometer 1 [x1]
@@ -57,7 +57,7 @@ sudo pip3 install adafruit-circuitpython-tca9548a
  
 ```
 Here is the GitHub link for the reference code\
-https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A  \
+https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A  
 
 ## Raspberry Pi 2
 ### DS18B20 -> temp probe [x4]
@@ -76,7 +76,7 @@ sudo pip3 install adafruit-circuitpython-tca9548a
 ###  strain gague [x2]
 
 Here is a useful link for the multiplexer\
-https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A  \
+https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A  
 
 ## Raspberry Pi 3
 ### BMP388 -> altitude, pressure, temp [x1]
@@ -96,6 +96,6 @@ sudo pip3 install adafruit-circuitpython-sgp30
 sudo pip3 install adafruit-circuitpython-tca9548a
 ```
 Here is a useful link for the multiplexer\
-https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A  \
+https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A  
 
 ## Arduino
