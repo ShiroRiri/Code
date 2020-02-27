@@ -23,25 +23,25 @@ sudo pip3 install adafruit-circuitpython-bno055
 ```
 sudo pip3 install adafruit-circuitpython-mma8451
 ```
-* TCA9548A -> Multiplexer [x1]
+### TCA9548A -> Multiplexer [x1]
 ```
 sudo pip3 install adafruit-circuitpython-tca9548a
 ```
 Here is the GitHub link for the reference code\
 https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
-* Raspberry Pi Camera
+### Raspberry Pi Camera
 
 ## Raspberry Pi 2
-* DS18B20 -> temp probe [x4]
+### DS18B20 -> temp probe [x4]
 ```
 sudo pip3 install adafruit-circuitpython-onewire
 sudo pip3 install adafruit-circuitpython-ds18x20 
 ```
-* ADS1115 -> analog to digital converter [x2]
+### ADS1115 -> analog to digital converter [x2]
 ```
 sudo pip3 install adafruit-circuitpython-ads1x15
 ```
-* TCA9548A -> Multiplexer [x1]
+### TCA9548A -> Multiplexer [x1]
 ```
 sudo pip3 install adafruit-circuitpython-tca9548a
 ```
@@ -50,19 +50,19 @@ https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
 * strain gague [x2]
 
 ## Raspberry Pi 3
-* BMP388 -> altitude, pressure, temp [x1]
+### BMP388 -> altitude, pressure, temp [x1]
 ```
 sudo pip3 install adafruit-circuitpython-bmp3xx
 ```
-* BME280 -> temp, pressure, humidity [x1]
+### BME280 -> temp, pressure, humidity [x1]
 ```
 sudo pip3 install adafruit-circuitpython-bme280
 ```
-* SGP30  -> CO2 [x1]
+### SGP30  -> CO2 [x1]
 ```
 sudo pip3 install adafruit-circuitpython-sgp30
 ```
-* TCA9548A -> Multiplexer [x1]
+### TCA9548A -> Multiplexer [x1]
 ```
 sudo pip3 install adafruit-circuitpython-tca9548a
 ```
