@@ -8,6 +8,13 @@ The repository is broken down by the python code (.py files) in the code directo
 There are libraries and tutorials required to set up each pi, located below, along with which sensors are being utilized.
 
 ## Raspberry Pi Zero
+This one is a little more involved.
+## MQTT
+This is how our server/client communicate.\
+
+## Wireless access point
+Follow this raspberry pi official tutorial to get it working\
+https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
 * RFM96W -> 433 MHz radio transceiver [x1]
 * DS18B20 -> temp probe [x1]
@@ -30,6 +37,9 @@ sudo pip3 install adafruit-circuitpython-tca9548a
 Here is the GitHub link for the reference code\
 https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A
 ### Raspberry Pi Camera
+```
+ 
+```
 
 ## Raspberry Pi 2
 ### DS18B20 -> temp probe [x4]
