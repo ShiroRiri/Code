@@ -22,10 +22,9 @@ You can test if it is working locally with there 2 in 2 different terminals:
 mosquitto_sub -h localhost -t "test/message"
 mosquitto_pub -h localhost -t "test/message" -m "Hello, world"
 ```
-Here are the tutorials I used:
+Here are the tutorials I used: \
 https://tutorials-raspberrypi.com/raspberry-pi-mqtt-broker-client-wireless-communication/ \
-https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi \
-\
+https://appcodelabs.com/introduction-to-iot-build-an-mqtt-server-using-raspberry-pi \  \
 Here is a good reference
 https://pypi.org/project/paho-mqtt/
 
