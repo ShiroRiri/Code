@@ -9,10 +9,10 @@ There are libraries and tutorials required to set up each pi, located below, alo
 
 ## Raspberry Pi Zero
 This one is a little more involved.
-## MQTT
+### MQTT
 This is how our server/client communicate.\
 
-## Wireless access point
+### Wireless access point
 Follow this raspberry pi official tutorial to get it working\
 https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
 
