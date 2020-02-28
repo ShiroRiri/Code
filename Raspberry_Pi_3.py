@@ -82,3 +82,4 @@ camera.start_preview()
 sleep()
 camera.capture() #add a pathway here later
 sleep(5)
+
