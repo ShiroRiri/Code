@@ -35,14 +35,20 @@ from time import sleep
 # initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
 
-# create the TCA object and address it an i2c bus
-tca = adafruit_tca9548a.TCA9548A(i2c)
+#Create library on I2C port
+bmp = adafruit_bmp3xx.BMP3XX_I2C(i2c)
+bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
+sgp30 = adafruit_sgp30.Adafruit_SGP30(i2c)
 
-ts11 = adafruit_bmp3xx.BMP3XX(tca[0])
-ts12 = adafruit_bme280.BME280(tca[1])
-ts13 = adafruit_sgp30.SGP30(tca[2])
-
-# code for BMP388
+#open files for each sensor
+bmp3xx = open('/home/pi/NCR/Read/bmp3xx.txt', 'w') #txt file needs to be created on Pi
+bme280 = open('/home/pi/NCR/Read/bme280.txt', 'w') #txt file needs to be created on Pi
+sgp30 = open('/home/pi/NCR/Read/sgp30.txt', 'w') #txt file needs to be created on Pi
+    
+bmp_temp = bmp3xx.temperature
+bmp_press = bmp3xx.pressure
+a, b, c, d = bme280.thpa 
+x2 = sgp30.CO2
 
 bmp.pressure_oversampling = 8
 bmp.temperature_oversampling = 2
@@ -83,3 +89,10 @@ sleep()
 camera.capture() #add a pathway here later
 sleep(5)
 
+while True:
+    data()
+
+#close files
+bmpx33.close()
+bme280.close()
+sgp30.close()
