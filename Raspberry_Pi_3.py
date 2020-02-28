@@ -47,14 +47,18 @@ sgp30 = open('/home/pi/NCR/Read/sgp30.txt', 'w') #txt file needs to be created o
     
 bmp_temp = bmp3xx.temperature
 bmp_press = bmp3xx.pressure
-a, b, c, d = bme280.thpa 
-x2 = sgp30.CO2
+bme_temp = bme280.temperature
+bme_hum = bme280.humidity
+bme_press = bme280.pressure
+bme_alt = bme280.altitude
+sgp_CO2 = sgp30.eCO2
+sgp_TVOC = sgp30.TVOC
 
 bmp.pressure_oversampling = 8
 bmp.temperature_oversampling = 2
 
 while True:
-    print("Pressure: {:6.1f}  Temperature: {:5.2f}".format(bmp.pressure, bmp.temperature))
+    print("Pressure: {:6.1f}  Temperature: {:5.2f}".format(bmp_press, bmp_temp))
     time.sleep(1)
 
 # code for BME288
@@ -63,10 +67,10 @@ while True:
 bme280.sea_level_pressure = 1013.25
 
 while True:
-    print("\nTemperature: %0.1f C" % bme280.temperature)
-    print("Humidity: %0.1f %%" % bme280.humidity)
-    print("Pressure: %0.1f hPa" % bme280.pressure)
-    print("Altitude = %0.2f meters" % bme280.altitude)
+    print("\nTemperature: %0.1f C" % bme_temp)
+    print("Humidity: %0.1f %%" % bme_hum)
+    print("Pressure: %0.1f hPa" % bme_press)
+    print("Altitude = %0.2f meters" % bme_alt)
     time.sleep(2)
 
 # code for SGP30
@@ -76,7 +80,7 @@ sgp30.set_iaq_baseline(0x8973, 0x8aae)
 elapsed_sec = 0
 
 while True:
-    print("eCO2 = %d ppm \t TVOC = %d ppb" % (sgp30.eCO2, sgp30.TVOC))
+    print("eCO2 = %d ppm \t TVOC = %d ppb" % (sgp_CO2, sgp_TVOC))
     time.sleep(1)
     elapsed_sec += 1
     if elapsed_sec > 10:
