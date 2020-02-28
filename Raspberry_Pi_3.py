@@ -54,38 +54,39 @@ bme_alt = bme280.altitude
 sgp_CO2 = sgp30.eCO2
 sgp_TVOC = sgp30.TVOC
 
+bmp3xx.write("{},{}\n".format(bmp_temp, bmp_press))
+bme280.write("{},{},{},{}\n".format(bme_temp, bme_hum, bme_press, bme_alt))
+sgp30.write("{},{}\n".format(sgp_CO2, sgp_TVOC))
+
 bmp.pressure_oversampling = 8
 bmp.temperature_oversampling = 2
 
 while True:
     print("Pressure: {:6.1f}  Temperature: {:5.2f}".format(bmp_press, bmp_temp))
     time.sleep(1)
-
-# code for BME288
-
-# change this to match the location's pressure (hPa) at sea level
-bme280.sea_level_pressure = 1013.25
-
-while True:
     print("\nTemperature: %0.1f C" % bme_temp)
     print("Humidity: %0.1f %%" % bme_hum)
     print("Pressure: %0.1f hPa" % bme_press)
     print("Altitude = %0.2f meters" % bme_alt)
     time.sleep(2)
-
-# code for SGP30
-sgp30.iaq_init()
-sgp30.set_iaq_baseline(0x8973, 0x8aae)
-
-elapsed_sec = 0
-
-while True:
+    
     print("eCO2 = %d ppm \t TVOC = %d ppb" % (sgp_CO2, sgp_TVOC))
     time.sleep(1)
     elapsed_sec += 1
     if elapsed_sec > 10:
         elapsed_sec = 0
         print("**** Baseline values: eCO2 = 0x%x, TVOC = 0x%x" % (sgp30.baseline_eCO2, sgp30.baseline_TVOC))
+
+# code for BME288
+
+# change this to match the location's pressure (hPa) at sea level
+bme280.sea_level_pressure = 1013.25
+
+# code for SGP30
+sgp30.iaq_init()
+sgp30.set_iaq_baseline(0x8973, 0x8aae)
+
+elapsed_sec = 0
 
 # code for camera
 camera.start_preview()
