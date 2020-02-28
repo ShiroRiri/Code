@@ -61,6 +61,13 @@ sgp30.write("{},{}\n".format(sgp_CO2, sgp_TVOC))
 bmp.pressure_oversampling = 8
 bmp.temperature_oversampling = 2
 
+# change this to match the location's pressure (hPa) at sea level
+bme280.sea_level_pressure = 1013.25
+
+# code for SGP30
+sgp30.iaq_init()
+sgp30.set_iaq_baseline(0x8973, 0x8aae)
+
 while True:
     print("Pressure: {:6.1f}  Temperature: {:5.2f}".format(bmp_press, bmp_temp))
     time.sleep(1)
@@ -78,21 +85,6 @@ while True:
         print("**** Baseline values: eCO2 = 0x%x, TVOC = 0x%x" % (sgp30.baseline_eCO2, sgp30.baseline_TVOC))
 
 # code for BME288
-
-# change this to match the location's pressure (hPa) at sea level
-bme280.sea_level_pressure = 1013.25
-
-# code for SGP30
-sgp30.iaq_init()
-sgp30.set_iaq_baseline(0x8973, 0x8aae)
-
-elapsed_sec = 0
-
-# code for camera
-camera.start_preview()
-sleep()
-camera.capture() #add a pathway here later
-sleep(5)
 
 #close files
 bmpx33.close()
