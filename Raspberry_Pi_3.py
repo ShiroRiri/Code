@@ -3,8 +3,6 @@
 # -BMP388 -> altitude, pressure, temp [x1] #
 # -BME280 -> temp, pressure, humidity [x1] #
 # -SGP30  -> CO2 [x1]                      #
-# -TCA9548A -> Multiplexer [x1]            #
-# -Raspberry Pi Camera                     #
 # //////////////////////////////////////////
 
 # /////////////////////////////////////////////////////////////
@@ -19,10 +17,6 @@
 #                                                             #
 # SGP30:                                                      #
 # sudo pip3 install adafruit-circuitpython-sgp30              #
-#                                                             #
-# TCA9548A:                                                   #
-# sudo pip3 install adafruit-circuitpython-tca9548a           #
-#                                                             #
 # /////////////////////////////////////////////////////////////
 
 #libraries
@@ -37,9 +31,6 @@ from picamera import PiCamera
 from time import sleep
 
 # ////////////////////////////////////////////////////////////////////////////////
-
-camera = PiCamera()
-
 
 # initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
