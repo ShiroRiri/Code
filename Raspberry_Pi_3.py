@@ -93,9 +93,6 @@ sleep()
 camera.capture() #add a pathway here later
 sleep(5)
 
-while True:
-    data()
-
 #close files
 bmpx33.close()
 bme280.close()
