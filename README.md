@@ -100,3 +100,5 @@ sudo pip3 install adafruit-circuitpython-sgp30
 ```
 
 ## Arduino
+
+Combined with an RFM96W, our Arudino acts as a remote interface to our Raspberry Pis abord the rocket. Code for the Arduino can be found in [ShiroRiri/rfm96w-repl](https://github.com/ShiroRiri/rfm96w-repl)
