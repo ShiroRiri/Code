@@ -26,25 +26,18 @@ import busio
 import adafruit_bmp3xx
 import adafruit_bme280
 import adafruit_sgp30
-import adafruit_tca9548a
-from picamera import PiCamera
-from time import sleep
 
 # ////////////////////////////////////////////////////////////////////////////////
 
 # initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
 
-#Create library on I2C port
-bmp = adafruit_bmp3xx.BMP3XX_I2C(i2c)
+# create library on I2C port
+bmp388 = adafruit_bmp3xx.BMP3XX_I2C(i2c)
 bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
 sgp30 = adafruit_sgp30.Adafruit_SGP30(i2c)
-
-#open files for each sensor
-bmp3xx = open('/home/pi/NCR/Read/bmp3xx.txt', 'w') #txt file needs to be created on Pi
-bme280 = open('/home/pi/NCR/Read/bme280.txt', 'w') #txt file needs to be created on Pi
-sgp30 = open('/home/pi/NCR/Read/sgp30.txt', 'w') #txt file needs to be created on Pi
     
+# set variables for each sensor value
 bmp_temp = bmp3xx.temperature
 bmp_press = bmp3xx.pressure
 bme_temp = bme280.temperature
@@ -54,39 +47,34 @@ bme_alt = bme280.altitude
 sgp_CO2 = sgp30.eCO2
 sgp_TVOC = sgp30.TVOC
 
-bmp3xx.write("{},{}\n".format(bmp_temp, bmp_press))
-bme280.write("{},{},{},{}\n".format(bme_temp, bme_hum, bme_press, bme_alt))
-sgp30.write("{},{}\n".format(sgp_CO2, sgp_TVOC))
-
-bmp.pressure_oversampling = 8
-bmp.temperature_oversampling = 2
-
-# change this to match the location's pressure (hPa) at sea level
+# base case
+bmp388.pressure_oversampling = 8
+bmp388.temperature_oversampling = 2
 bme280.sea_level_pressure = 1013.25
-
-# code for SGP30
 sgp30.iaq_init()
 sgp30.set_iaq_baseline(0x8973, 0x8aae)
 
-while True:
-    print("Pressure: {:6.1f}  Temperature: {:5.2f}".format(bmp_press, bmp_temp))
-    time.sleep(1)
-    print("\nTemperature: %0.1f C" % bme_temp)
-    print("Humidity: %0.1f %%" % bme_hum)
-    print("Pressure: %0.1f hPa" % bme_press)
-    print("Altitude = %0.2f meters" % bme_alt)
-    time.sleep(2)
+# open files for each sensor
+bmp388_file = open('/home/pi/NCR/Read/bmp388.txt', 'w')
+bme280_file = open('/home/pi/NCR/Read/bme280.txt', 'w')
+sgp30_file  = open('/home/pi/NCR/Read/sgp30.txt', 'w')
+
+def data():
+    bmp388_file.write("{},{}\n".format(bmp_temp, bmp_pres))
+    bme280_file.write("{},{},{},{}\n".format(bme_temp, bme_hum, bme_press, bme_alt))
+    sgp30_file.write("{},{}\n".format(sgp_CO2, sgp_TVOC))
     
-    print("eCO2 = %d ppm \t TVOC = %d ppb" % (sgp_CO2, sgp_TVOC))
-    time.sleep(1)
+    '''
     elapsed_sec += 1
     if elapsed_sec > 10:
         elapsed_sec = 0
         print("**** Baseline values: eCO2 = 0x%x, TVOC = 0x%x" % (sgp30.baseline_eCO2, sgp30.baseline_TVOC))
+    '''
 
-# code for BME288
+while True:
+    data()
 
 #close files
-bmpx33.close()
-bme280.close()
-sgp30.close()
+bmp388_file.close()
+bme280_file_file.close()
+sgp30_file.close()
