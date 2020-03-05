@@ -32,11 +32,8 @@ import datetime
 # initialize I2C bus and sensors for mma8451
 i2c = busio.I2C(board.SCL, board.SDA) 
 
-
 # create the TCA9548A object and give it the I2C bus
 tca = adafruit_tca9548a.TCA9548A(i2c)
-
-
 
 # create each sensor using the TCA9548A channel instead of the I2C object
 tsl1 = adafruit_mma8451.MMA8451(tca[0])   # MMA8451_1
