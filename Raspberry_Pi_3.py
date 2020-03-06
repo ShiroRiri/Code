@@ -33,13 +33,13 @@ import adafruit_sgp30
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # create library on I2C port
-bmp388 = adafruit_bmp3xx.BMP3XX_I2C(i2c)
+bmp388 = adafruit_bmp3xx.BMP3XX_I2C(i2c, address = 0x76)
 bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
 sgp30 = adafruit_sgp30.Adafruit_SGP30(i2c)
     
 # set variables for each sensor value
-bmp_temp = bmp3xx.temperature
-bmp_press = bmp3xx.pressure
+bmp_temp = bmp388.temperature
+bmp_press = bmp388.pressure
 bme_temp = bme280.temperature
 bme_hum = bme280.humidity
 bme_press = bme280.pressure
@@ -60,7 +60,7 @@ bme280_file = open('/home/pi/NCR/Read/bme280.txt', 'w')
 sgp30_file  = open('/home/pi/NCR/Read/sgp30.txt', 'w')
 
 def data():
-    bmp388_file.write("{},{}\n".format(bmp_temp, bmp_pres))
+    bmp388_file.write("{},{}\n".format(bmp_temp, bmp_press))
     bme280_file.write("{},{},{},{}\n".format(bme_temp, bme_hum, bme_press, bme_alt))
     sgp30_file.write("{},{}\n".format(sgp_CO2, sgp_TVOC))
     
