@@ -21,7 +21,7 @@ MQTT_PATH_REPLY = "reply_channel"
 # 4. POWER OFF
 
 def on_connect(client, userdata, flags, rc):
-        print("Connected with result code " +str(rc))
+        print("Connected to client with result code " +str(rc))
         client.subscribe(MQTT_PATH_REPLY)
         publish.single(MQTT_PATH_COMMAND, "ONLINE", hostname=MQTT_SERVER)
 #        client.publish(MQTT_PATH_COMMAND, "ONLINE")

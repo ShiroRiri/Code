@@ -5,20 +5,6 @@
 # -SGP30  -> CO2 [x1]                      #
 # //////////////////////////////////////////
 
-# /////////////////////////////////////////////////////////////
-# code to install proper libraries for each sensor            #
-# on the pi, write in terminal                                #
-#                                                             #
-# BMP388:                                                     #
-# sudo pip3 install adafruit-circuitpython-bmp3xx             #
-#                                                             #
-# BME280:                                                     #
-# sudo pip3 install adafruit-circuitpython-bme280             #
-#                                                             #
-# SGP30:                                                      #
-# sudo pip3 install adafruit-circuitpython-sgp30              #
-# /////////////////////////////////////////////////////////////
-
 #libraries
 import time
 import board
@@ -27,7 +13,17 @@ import adafruit_bmp3xx
 import adafruit_bme280
 import adafruit_sgp30
 
-# ////////////////////////////////////////////////////////////////////////////////
+import paho.mqtt.publish as publish
+import paho.mqtt.client as mqtt
+
+MQTT_SERVER = "192.168.4.1"
+MQTT_PATH_COMMAND = "command_channel"
+MQTT_PATH_REPLY = "reply_channel"
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(MQTT_SERVER, 1883, 60)
 
 # initialize I2C bus and sensors
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -36,7 +32,7 @@ i2c = busio.I2C(board.SCL, board.SDA)
 bmp388 = adafruit_bmp3xx.BMP3XX_I2C(i2c)
 bme280 = adafruit_bme280.Adafruit_BME280_I2C(i2c)
 sgp30 = adafruit_sgp30.Adafruit_SGP30(i2c)
-    
+
 # set variables for each sensor value
 bmp_temp = bmp3xx.temperature
 bmp_press = bmp3xx.pressure
@@ -55,15 +51,15 @@ sgp30.iaq_init()
 sgp30.set_iaq_baseline(0x8973, 0x8aae)
 
 # open files for each sensor
-bmp388_file = open('/home/pi/NCR/Read/bmp388.txt', 'w')
-bme280_file = open('/home/pi/NCR/Read/bme280.txt', 'w')
-sgp30_file  = open('/home/pi/NCR/Read/sgp30.txt', 'w')
+bmp388_file = open('/mnt/usb/bmp388.txt', 'w')
+bme280_file = open('/mnt/usb/bme280.txt', 'w')
+sgp30_file  = open('/mnt/usb/sgp30.txt', 'w')
 
 def data():
     bmp388_file.write("{},{}\n".format(bmp_temp, bmp_pres))
     bme280_file.write("{},{},{},{}\n".format(bme_temp, bme_hum, bme_press, bme_alt))
     sgp30_file.write("{},{}\n".format(sgp_CO2, sgp_TVOC))
-    
+
     '''
     elapsed_sec += 1
     if elapsed_sec > 10:
@@ -73,6 +69,21 @@ def data():
 
 while True:
     data()
+
+# The callback for when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+
+    # Subscribing in on_connect() means that if we lose the connection and
+    # reconnect then subscriptions will be renewed.
+    client.subscribe(MQTT_PATH_COMMAND)
+    #client.subscribe(MQTT_PATH_REPLY)
+
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print(msg.topic+" "+str(msg.payload))
+    client.publish(MQTT_PATH_REPLY, "Raspberry Pi 1 is ONLINE")
+    # more callbacks, etc
 
 #close files
 bmp388_file.close()

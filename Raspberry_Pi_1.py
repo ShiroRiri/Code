@@ -5,249 +5,89 @@
 #  -TCA9548A (multiplexer) [x1]         #
 # ///////////////////////////////////////
 
-# ///////////////////////////////////////////////////////////////
-# code to install libraries for each sensor                     #
-# on the pi, write in terminal                                  #
-#                                                               #
-# BNO055                                                        #
-# sudo pip3 install adafruit-circuitpython-bno055               #
-#                                                               #
-# MMA8451                                                       #
-# sudo pip3 install adafruit-circuitpython-mma8451              #
-#                                                               #
-# TCA9548A                                                      #
-# sudo pip3 install adafruit-circuitpython-tca9548a             #
-# https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A   #
-# ///////////////////////////////////////////////////////////////
-
 # libraries
-import time #accelerometer
-import board #accelerometer #BNO055
-import busio # accelerometer  #BNO055
-import adafruit_mma8451 #accelerometer
-import adafruit_tca9548a   # multiplexer
+import time
+import board
+import busio
+import adafruit_mma8451
+import adafruit_tca9548a
+import adafruit_bno055
 import threading
 import datetime
 
+import paho.mqtt.publish as publish
+import paho.mqtt.client as mqtt
+
+MQTT_SERVER = "192.168.4.1"
+MQTT_PATH_COMMAND = "command_channel"
+MQTT_PATH_REPLY = "reply_channel"
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(MQTT_SERVER, 1883, 60)
+
 # initialize I2C bus and sensors for mma8451
-i2c = busio.I2C(board.SCL, board.SDA) 
+i2c = busio.I2C(board.SCL, board.SDA)
 
 # create the TCA9548A object and give it the I2C bus
 tca = adafruit_tca9548a.TCA9548A(i2c)
 
 # create each sensor using the TCA9548A channel instead of the I2C object
-tsl1 = adafruit_mma8451.MMA8451(tca[0])   # MMA8451_1
-tsl2 = adafruit_mma8451.MMA8451(tca[1])   # MMA8451_2
-tsl3 = adafruit_mma8451.MMA8451(tca[2])   # MMA8451_3
+mma8451_1 = adafruit_mma8451.MMA8451(tca[0])   # MMA8451_1
+mma8451_2 = adafruit_mma8451.MMA8451(tca[1])   # MMA8451_2
+mma8451_3 = adafruit_mma8451.MMA8451(tca[2])   # MMA8451_3
+bno055 = adafruit_bno055.BNO055(i2c)
 
 # open files for each sensor
-mma8451_1 = open('/home/pi/NCR/Read/mma8451_1.txt', 'w')
-mma8451_2 = open('/home/pi/NCR/Read/mma8451_2.txt', 'w')
-mma8451_3 = open('/home/pi/NCR/Read/mma8451_3.txt', 'w')
-
-# MMA8451 code
+mma8451_1_File = open('/mnt/usb/mma8451_1.txt', 'w')
+mma8451_2_File = open('/mnt/usb/mma8451_2.txt', 'w')
+mma8451_3_File = open('/mnt/usb/mma8451_3.txt', 'w')
+bno055_File = open('/mnt/usb/bno055.txt', 'w')
 
 def data():
+    x1, y1, z1 = mma8451_1.acceleration
+    x2, y2, z2 = mma8451_2.acceleration
+    x3, y3, z3 = mma8451_3.acceleration
+    orientation_1 = mma8451_1.orientation
+    orientation_2 = mma8451_2.orientation
+    orientation_3 = MMA8451_3.orientation
+    temp = bno055.temperature
+    accel = bno055.acceleration
+    mag = bno055.magnetic
+    gyr = bno055.gyro
+    eul = bno055.euler
+    quat = bno055.quaternion
+    lin_accel = bno055.linear_acceleration
+    grav = bno055.gravity
 
-    # MMA8451 code
-    x1, y1, z1 = tsl1.acceleration
-    x2, y2, z2 = tsl2.acceleration
-    x3, y3, z3 = tsl3.acceleration
+    mma8451_1_File.write("{},{},{},{}\n".format(x1, y1, z1, orientation_1))
+    mma8451_2_File.write("{},{},{},{}\n".format(x2, y2, z2, orientation_2))
+    mma8451_3_File.write("{},{},{},{}\n".format(x3, y3, z3, orientation_3))
+    bno055_File.write("{},{},{},{},{},{},{},{}\n".format(temp, accel, mag, gyr, eul, quat, lin_accel, grav))
 
-    
-    
-    mma8451_1.write("{},{},{}\n".format(x1, y1, z1))
-    mma8451_2.write("{},{},{}\n".format(x2, y2, z2))
-    mma8451_3.write("{},{},{}\n".format(x3, y3, z3))
-    print(datetime.datetime.utcnow()+datetime.timedelta(hours=-8))
-    print()
-    orientation = tsl2.orientation
-    # Orientation is one of these values:
-    #  - PL_PUF: Portrait, up, front
-    #  - PL_PUB: Portrait, up, back
-    #  - PL_PDF: Portrait, down, front
-    #  - PL_PDB: Portrait, down, back
-    #  - PL_LRF: Landscape, right, front
-    #  - PL_LRB: Landscape, right, back
-    #  - PL_LLF: Landscape, left, front
-    #  - PL_LLB: Landscape, left, back
-    print('Orientation: ', end='')
-    print(orientation)
+#    print(datetime.datetime.utcnow()+datetime.timedelta(hours=-8))
 
-#     if orientation == adafruit_mma8451.PL_PUF:
-#         print('Portrait, up, front')
-#     elif orientation == adafruit_mma8451.PL_PUB:
-#         print('Portrait, up, back')
-#     elif orientation == adafruit_mma8451.PL_PDF:
-#         print('Portrait, down, front')
-#     elif orientation == adafruit_mma8451.PL_PDB:
-#         print('Portrait, down, back')
-#     elif orientation == adafruit_mma8451.PL_LRF:
-#         print('Landscape, right, front')
-#     elif orientation == adafruit_mma8451.PL_LRB:
-#         print('Landscape, right, back')
-#     elif orientation == adafruit_mma8451.PL_LLF:
-#         print('Landscape, left, front')
-#     elif orientation == adafruit_mma8451.PL_LLB:
-#         print('Landscape, left, back')
-
-while True:    
+while True:
     data()
 
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+
+    # Subscribing in on_connect() means that if we lose the connection and
+    # reconnect then subscriptions will be renewed.
+    client.subscribe(MQTT_PATH_COMMAND)
+    #client.subscribe(MQTT_PATH_REPLY)
+
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print(msg.topic+" "+str(msg.payload))
+    client.publish(MQTT_PATH_REPLY, "Raspberry Pi 1 is ONLINE")
 
 # close files
-
 mma8451_1.close()
 mma8451_2.close()
 mma8451_3.close()
 
 #remember to take out the reset pin or else this thing wont work...
 #when put in PCB's set reset to high on multiplexer
-
-
-##############################################################################################################################
-
-# ///////////////////////////////////////
-# Raspberry Pi 1:                       #
-#  -BNO055 (orientation) [x1]           #
-#  -MMA8451 (accelerometer) [x3]        #
-#  -TCA9548A (multiplexer) [x1]         #
-# ///////////////////////////////////////
-
-# ///////////////////////////////////////////////////////////////
-# code to install libraries for each sensor                     #
-# on the pi, write in terminal                                  #
-#                                                               #
-# BNO055                                                        #
-# sudo pip3 install adafruit-circuitpython-bno055               #
-#                                                               #
-# MMA8451                                                       #
-# sudo pip3 install adafruit-circuitpython-mma8451              #
-#                                                               #     
-# TCA9548A                                                      #
-# sudo pip3 install adafruit-circuitpython-tca9548a             #
-# https://github.com/adafruit/Adafruit_CircuitPython_TCA9548A   #
-# ///////////////////////////////////////////////////////////////
-
-# libraries
-import time
-import board
-import busio
-import adafruit_bno055
-import adafruit_mma8451
-import adafruit_tca9548a   # multiplexer
-
-# initialize I2C bus and sensors
-i2c = busio.I2C(board.SCL, board.SDA)
-
-# initialize I2C bus and sensors
-sensor = adafruit_bno055.BNO055(i2c)
-
-# create the TCA9548A object and give it the I2C bus
-tca = adafruit_tca9548a.TCA9548A(i2c)
-
-# create each sensor using the TCA9548A channel instead of the I2C object
-tsl1 = adafruit_mma8451.MMA8451(tca[0])   # MMA8451_1
-tsl2 = adafruit_mma8451.MMA8451(tca[1])   # MMA8451_2
-tsl3 = adafruit_mma8451.MMA8451(tca[2])   # MMA8451_3
-
-# open files for each sensor
-bno055_1 = open('/media/pi/bno055_1.txt', 'w')
-mma8451_1 = open('/media/pi/mma8451_1.txt', 'w')
-mma8451_2 = open('/media/pi/mma8451_2.txt', 'w')
-mma8451_3 = open('/media/pi/mma8451_3.txt', 'w')
-
-# MMA8451 code
-    x1, y1, z1 = tsl1.acceleration
-    x2, y2, z2 = tsl2.acceleration
-    x3, y3, z3 = tsl3.acceleration
- 
-while True:
-# BNO055 code
-    '''
-    acceleration: m/s^2
-    temperature: C
-    magnetic: microteslas
-    gyroscope: rad/sec
-    linear acceleration: m/s^2
-    gravity: m/s^2
-    '''
-
-    bno055_1.write('%f\n', sensor.acceleration)
- 
- # will talk to Paul G about which other ones to add
- 
- '''
-    bno055_1.write('%f\n', sensor.temperature)
-    bno055_1.write('%f\n', sensor.magnetic)
-    bno055_1.write('%f\n', sensor.gyro)
-    bno055_1.write('%f\n', sensor.euler)
-    bno055_1.write('%f\n', sensor.quaternion)
-    bno055_1.write('%f\n', sensor.linear_acceleration)
-    bno055_1.write('%f\n', sensor.gravity)
-'''
-     
-# MMA8451 code
-     
-    # print('Acceleration: x={0:0.3f}m/s^2 y={1:0.3f}m/s^2 z={2:0.3f}m/s^2'.format(x, y, z))
-    mma8451_1.write('%f %f %f\n', x1, y1, z1)
-    mma8451_2.write('%f %f %f\n', x2, y2, z2)
-    mma8451_3.write('%f %f %f\n', x3, y3, z3)
-     
-'''
-    orientation = tsl2.orientation
-    # Orientation is one of these values:
-    #  - PL_PUF: Portrait, up, front
-    #  - PL_PUB: Portrait, up, back
-    #  - PL_PDF: Portrait, down, front
-    #  - PL_PDB: Portrait, down, back
-    #  - PL_LRF: Landscape, right, front
-    #  - PL_LRB: Landscape, right, back
-    #  - PL_LLF: Landscape, left, front
-    #  - PL_LLB: Landscape, left, back
-    print('Orientation: ', end='')
-    if orientation == adafruit_mma8451.PL_PUF:
-        print('Portrait, up, front')
-    elif orientation == adafruit_mma8451.PL_PUB:
-        print('Portrait, up, back')
-    elif orientation == adafruit_mma8451.PL_PDF:
-        print('Portrait, down, front')
-    elif orientation == adafruit_mma8451.PL_PDB:
-        print('Portrait, down, back')
-    elif orientation == adafruit_mma8451.PL_LRF:
-        print('Landscape, right, front')
-    elif orientation == adafruit_mma8451.PL_LRB:
-        print('Landscape, right, back')
-    elif orientation == adafruit_mma8451.PL_LLF:
-        print('Landscape, left, front')
-    elif orientation == adafruit_mma8451.PL_LLB:
-        print('Landscape, left, back')
-'''
-
-# close files
-bno055_1.close()
-mma8451_1.close()
-mma8451_2.close()
-mma8451_3.close()
-     
-# ////////////////////////////////////////////////////////////////
-'''
-# optional code for MMA8451
-# Optionally change the address if it's not the default:
-sensor = adafruit_mma8451.MMA8451(i2c, address=0x1C)
- 
-# Optionally change the range from its default of +/-4G:
-sensor.range = adafruit_mma8451.RANGE_2G  # +/- 2G
-sensor.range = adafruit_mma8451.RANGE_4G  # +/- 4G (default)
-sensor.range = adafruit_mma8451.RANGE_8G  # +/- 8G
- 
-# Optionally change the data rate from its default of 800hz:
-sensor.data_rate = adafruit_mma8451.DATARATE_800HZ  #  800Hz (default)
-sensor.data_rate = adafruit_mma8451.DATARATE_400HZ  #  400Hz
-sensor.data_rate = adafruit_mma8451.DATARATE_200HZ  #  200Hz
-sensor.data_rate = adafruit_mma8451.DATARATE_100HZ  #  100Hz
-sensor.data_rate = adafruit_mma8451.DATARATE_50HZ   #   50Hz
-sensor.data_rate = adafruit_mma8451.DATARATE_12_5HZ # 12.5Hz
-sensor.data_rate = adafruit_mma8451.DATARATE_6_25HZ # 6.25Hz
-sensor.data_rate = adafruit_mma8451.DATARATE_1_56HZ # 1.56Hz
-'''
