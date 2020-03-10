@@ -1,3 +1,9 @@
+'''
+NORCO COLLEGE ROCKETRY
+This is the code for Raspberry Pi 1 in the payload of the rocket.
+'''
+
+import paho.mqtt.publish as publish
 import paho.mqtt.client as mqtt
 
 MQTT_SERVER = "192.168.4.1"
@@ -16,7 +22,7 @@ def on_connect(client, userdata, flags, rc):
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
-    client.publish(MQTT_PATH_REPLY, "TEST TEST TEST")
+    client.publish(MQTT_PATH_REPLY, "Raspberry Pi 1 is ONLINE")
     # more callbacks, etc
 
 client = mqtt.Client()
@@ -25,11 +31,25 @@ client.on_message = on_message
 
 client.connect(MQTT_SERVER, 1883, 60)
 
-# Blocking call that processes network traffic, dispatches callbacks and
-# handles reconnecting.
-# Other loop*() functions are available that give a threaded interface and a
-# manual interface.
 client.loop_forever()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##################################################################################
 
